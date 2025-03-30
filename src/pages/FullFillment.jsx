@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import StatusDropDown from "../components/StatusDropDown";
 
 const orders = [
 	{
@@ -64,7 +65,7 @@ const FullFillment = () => {
 	);
 
 	return (
-		<div className=" p-8 bg-gray-100 overflow-y-auto rounded-xl shadow-lg w-[78%] absolute top-20 -right-6 z-20 h-screen">
+		<div className=" p-8 bg-white overflow-y-auto rounded-xl shadow-lg w-[78%] absolute top-20 -right-6 z-20 h-screen">
 			<div className="flex justify-between items-center mb-4">
 				<h2 className="text-xl font-semibold text-[#2B2B2B]">Orders</h2>{" "}
 				<button className="bg-blue-500 text-white px-2 py-2 rounded-2xl">
@@ -84,8 +85,8 @@ const FullFillment = () => {
 
 			<div className="mt-4 overflow-x-auto">
 				<table className="w-full border-b border-[#B2B2B2] text-[#484848]">
-					<thead className="text-left">
-						<tr className="text-left">
+					<thead className="text-center">
+						<tr className="text-center">
 							<th className="p-3">
 								<input type="checkbox" />
 							</th>
@@ -97,7 +98,7 @@ const FullFillment = () => {
 							<th className="p-3 font-medium">Fulfillment</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody className="text-center">
 						{filteredOrders.map((order) => (
 							<tr
 								key={order.id}
@@ -110,17 +111,12 @@ const FullFillment = () => {
 								<td className="p-3">{order.customer}</td>
 								<td className="p-3">{order.product}</td>
 								<td className="p-3">{order.phone}</td>
-								<td className="p-3">
-									<span
-										className={`px-2 py-1 rounded-full text-sm ${
-											order.status === "Ready to Dispatch"
-												? "text-orange-500"
-												: order.status === "Completed"
-												? "text-green-500"
-												: "text-red-500"
-										}`}>
-										{order.status}
-									</span>
+								<td className="p-3 w-40">
+									<StatusDropDown
+										orderId={order.orderId}
+										initialStatus={order.status || "Pending"}
+										disableDropdown={true}
+									/>
 								</td>
 							</tr>
 						))}

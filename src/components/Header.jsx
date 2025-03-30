@@ -3,7 +3,7 @@ import React from "react";
 
 const Header = () => {
 	return (
-		<header className="h-28 bg-[#2b2b2b] text-white">
+		<header className="h-60 bg-[#2B2B2B] text-white">
 			<div className="p-6 mb-2 flex items-center justify-between">
 				<img
 					src="/XceedInventory.png"

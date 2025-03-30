@@ -15,7 +15,7 @@ const Sidebar = ({ setActivePage }) => {
 	};
 
 	return (
-		<aside className=" bg-gray-100 text-[#2B2B2B] font-medium p-6 flex flex-col rounded-xl absolute w-[22%] top-20 z-20 h-screen shadow-lg overflow-y-auto">
+		<aside className=" bg-white text-[#2B2B2B] font-medium p-6 flex flex-col rounded-xl absolute w-[22%] top-20 z-20 h-screen shadow-lg overflow-y-auto">
 			<div className="flex flex-col items-center mb-6">
 				<img
 					src="/avatar.png"

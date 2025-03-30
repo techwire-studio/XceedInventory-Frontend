@@ -45,7 +45,7 @@ const AddProducts = () => {
 	};
 
 	return (
-		<div className="p-8 bg-gray-100 rounded-xl shadow-lg overflow-y-auto w-[78%] absolute top-20 -right-6 z-20 h-screen">
+		<div className="p-8 bg-white rounded-xl shadow-lg overflow-y-auto w-[78%] absolute top-20 -right-4 z-20 h-screen">
 			<div className="flex justify-between items-center mb-6">
 				<h2 className="text-xl font-semibold flex items-center justify-center gap-2">
 					<RiArrowLeftLine size={24} /> Add Products
@@ -69,7 +69,7 @@ const AddProducts = () => {
 							name="name"
 							value={form.name}
 							onChange={handleChange}
-							className="w-full border p-2 rounded"
+							className="w-full border p-2 rounded bg-gray-50"
 							placeholder="Enter Product Name"
 						/>
 					</div>
@@ -82,7 +82,7 @@ const AddProducts = () => {
 							name="description"
 							value={form.description}
 							onChange={handleChange}
-							className="w-full border p-2 rounded h-28"
+							className="w-full border p-2 rounded h-48 bg-gray-50"
 							placeholder="Enter product description"
 						/>
 					</div>
@@ -97,7 +97,7 @@ const AddProducts = () => {
 								name="source"
 								value={form.source}
 								onChange={handleChange}
-								className="w-full border p-2 rounded"
+								className="w-full border p-2 rounded bg-gray-50"
 								placeholder="Enter Source"
 							/>
 						</div>
@@ -110,7 +110,7 @@ const AddProducts = () => {
 								name="subCategory"
 								value={form.subCategory}
 								onChange={handleChange}
-								className="w-full border p-2 rounded"
+								className="w-full border p-2 rounded bg-gray-50"
 							/>
 						</div>
 					</div>
@@ -125,7 +125,7 @@ const AddProducts = () => {
 								name="datasheetLink"
 								value={form.datasheetLink}
 								onChange={handleChange}
-								className="w-full border p-2 rounded"
+								className="w-full border p-2 rounded bg-gray-50"
 							/>
 						</div>
 						<div>
@@ -137,18 +137,18 @@ const AddProducts = () => {
 								name="package"
 								value={form.package}
 								onChange={handleChange}
-								className="w-full border p-2 rounded"
+								className="w-full border p-2 rounded bg-gray-50"
 							/>
 						</div>
 					</div>
 				</div>
 
-				<div className="space-y-4">
+				<div className="space-y-7">
 					<div>
 						<label className="block text-gray-600 text-sm font-semibold mb-1">
 							Media
 						</label>
-						<div className="border border-dashed p-6 rounded-lg text-center text-gray-500">
+						<div className="border border-dashed p-6 rounded-lg text-center text-gray-500 bg-gray-100 h-48 flex flex-col justify-center items-center">
 							<button className="text-blue-500">Upload new</button>
 							<p className="text-xs mt-2">Drag & drop or click to upload</p>
 						</div>
@@ -160,7 +160,7 @@ const AddProducts = () => {
 						</label>
 						<input
 							type="text"
-							className="w-full border p-2 rounded"
+							className="w-full border p-2 rounded bg-gray-50"
 						/>
 					</div>
 
@@ -170,7 +170,7 @@ const AddProducts = () => {
 						</label>
 						<input
 							type="number"
-							className="w-full border p-2 rounded"
+							className="w-full border p-2 rounded bg-gray-50"
 						/>
 					</div>
 				</div>

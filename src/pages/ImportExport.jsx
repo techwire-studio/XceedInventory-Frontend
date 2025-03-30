@@ -44,7 +44,7 @@ const ImportExport = () => {
 	};
 
 	return (
-		<div className="p-8 pb-36 bg-gray-100 shadow-md rounded-lg w-[78%] absolute top-20 -right-6 z-20 h-screen overflow-y-auto">
+		<div className="p-8 pb-36 bg-white shadow-md rounded-lg w-[78%] absolute top-20 -right-6 z-20 h-screen overflow-y-auto">
 			<div className="flex flex-col justify-center items-center w-full">
 				<h2 className="text-xl font-semibold mb-6 text-center">
 					Items - Select file

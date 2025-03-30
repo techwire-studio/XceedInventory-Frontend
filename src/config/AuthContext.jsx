@@ -11,13 +11,6 @@ export const AuthProvider = ({ children }) => {
         if (token) {
             setUser({ token });
         } 
-        // Auto-login for development mode
-        else if (process.env.NODE_ENV === "development") {
-            const devToken = "dev-mode-token";
-            localStorage.setItem("token", devToken);
-            setUser({ token: devToken });
-            console.log("DEV MODE: Auto-authenticated");
-        }
     }, []);
 
 	const login = async (username, password) => {
