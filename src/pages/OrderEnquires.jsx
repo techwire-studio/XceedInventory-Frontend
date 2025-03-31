@@ -130,71 +130,66 @@ const OrderEnquires = ({ setActivePage, setSelectedOrder }) => {
         </div>
       </div>
   
-      {/* Table Headers - Fixed */}
-      <div className="mt-4 flex-none">
-        <table className="w-full text-[#484848] text-sm">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="p-3 w-10 text-left">
+    {/* Table Headers - Fixed */}
+    <div className="mt-4 flex-none">
+      <table className="w-full text-[#484848] text-sm table-fixed">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="p-3 w-10 text-left">
+              <input type="checkbox" className="h-4 w-4" />
+            </th>
+            <th className="p-3 text-center font-medium w-[15%]">Order ID</th>
+            <th className="p-3 text-center font-medium w-[15%]">Customer</th>
+            <th className="p-3 text-center font-medium w-[15%]">Phone</th>
+            <th className="p-3 text-center font-medium w-[25%]">Product Name/Part No</th>
+            <th className="p-3 text-center font-medium w-[10%]">Quantity</th>
+            <th className="p-3 text-center font-medium w-[20%]">Status</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    {/* Table Body - Scrollable */}
+    <div className="flex-grow">
+      <table className="w-full border-b border-[#B2B2B2] text-[#484848] text-sm table-fixed">
+        <tbody>
+          {currentOrders.map((order) => (
+            <tr
+              key={order.orderId}
+              className="border-b border-gray-200 hover:bg-gray-50">
+              <td className="p-3 w-10">
                 <input type="checkbox" className="h-4 w-4" />
-              </th>
-              <th className="p-3 text-center font-medium">Order ID</th>
-              <th className="p-3 text-center font-medium">Customer</th>
-              <th className="p-3 text-center font-medium">Phone</th>
-              <th className="p-3 text-center font-medium">Product Name/Part No</th>
-              <th className="p-3 text-center font-medium">Quantity</th>
-              <th className="p-3 text-center font-medium">Status</th>
+              </td>
+              <td className="p-3 text-center cursor-pointer hover:text-blue-600 w-[15%]">
+                {order.orderId}
+              </td>
+              <td className="p-3 text-center w-[15%]">
+                {order.firstName} {order.lastName}
+              </td>
+              <td className="p-3 text-center w-[15%]">{order.phoneNumber}</td>
+              <td className="p-3 text-center w-[25%] truncate">
+                {order.products?.length > 0
+                  ? order.products[0].productName || order.products[0].name
+                  : "N/A"}
+              </td>
+              <td className="p-3 text-center w-[10%]">
+                {order.products?.length > 0
+                  ? order.products[0].quantity
+                  : "N/A"}
+              </td>
+              <td className="p-3 w-[20%]">
+                <StatusDropDown
+                  orderId={order.orderId}
+                  initialStatus={order.status || "Pending"}
+                  onStatusUpdate={handleStatusUpdate}
+                  disableDropdown={false}
+                />
+              </td>
             </tr>
-          </thead>
-        </table>
-      </div>
-    
-      {/* Table Body - Scrollable */}
-      <div className="flex-grow">
-        <table className="w-full border-b border-[#B2B2B2] text-[#484848] text-sm">
-          <tbody>
-            {currentOrders.map((order) => (
-              <tr
-                key={order.orderId}
-                className="border-b border-gray-200 hover:bg-gray-50">
-                <td className="p-3 w-10">
-                  <input type="checkbox" className="h-4 w-4" />
-                </td>
-                <td
-                  className="p-3 text-center cursor-pointer hover:text-blue-600"
-                  onClick={() => {
-                    setSelectedOrder(order);
-                    setActivePage("order-details");
-                  }}>
-                  {order.orderId}
-                </td>
-                <td className="p-3 text-center">
-                  {order.firstName} {order.lastName}
-                </td>
-                <td className="p-3 text-center">{order.phoneNumber}</td>
-                <td className="p-3 text-center">
-                  {order.products?.length > 0
-                    ? order.products[0].productName || order.products[0].name
-                    : "N/A"}
-                </td>
-                <td className="p-3 text-center">
-                  {order.products?.length > 0
-                    ? order.products[0].quantity
-                    : "N/A"}
-                </td>
-                <td className="p-3 w-40">
-                  <StatusDropDown
-                    orderId={order.orderId}
-                    initialStatus={order.status || "Pending"}
-                    onStatusUpdate={handleStatusUpdate}
-                    disableDropdown={false}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
+    </div>
     
       {/* Pagination - Fixed at bottom */}
       {filteredOrders.length > 0 && (

@@ -107,7 +107,7 @@ const StatusDropDown = ({ orderId, initialStatus, onStatusUpdate, disableDropdow
         <div className="relative inline-block w-full" ref={dropdownRef}>
             {/* Current Status Display */}
             <div 
-                className="flex items-center justify-between px-3 py-2 rounded bg-white cursor-pointer"
+                className="flex items-center justify-around px-3 py-2 rounded bg-white cursor-pointer"
                 onClick={() => !loading && setIsOpen(!isOpen)}
             >
                 <div className="flex items-center">
