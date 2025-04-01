@@ -126,8 +126,7 @@ const OrderDetails = ({ setActivePage, order }) => {
                         <p>${order.totalAmount || "0.00"}</p>
                     </div>
                     <div className="mb-4">
-                        <p className="font-medium mb-2">Status:</p>
-                        <div className="flex items-center px-8 py-3 rounded-md" 
+                        <div className="flex items-center px-10 py-3" 
                              style={{ 
                                  backgroundColor: 
                                  order.status === "Pending" ? "#F5D876" : 
@@ -136,7 +135,6 @@ const OrderDetails = ({ setActivePage, order }) => {
                                  order.status === "Cancelled" ? "#E24C4C" : 
                                  "#cccccc"
                              }}>
-                            <div className="w-3 h-3 rounded-full mr-2 bg-white"></div>
                             <span className="text-black font-medium">{order.status || "Pending"}</span>
                         </div>
                     </div>

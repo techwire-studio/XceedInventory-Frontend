@@ -95,16 +95,107 @@ const sampleOrders = [
     phoneNumber: "+91 7539518520",
     products: [{ name: "SPN456W01X", quantity: 1 }],
     status: "Completed"
-  }
+  },
+  {
+    orderId: "#1024",
+    date: "21/12/2024 - 4:15 PM",
+    firstName: "Amit",
+    lastName: "Sharma",
+    phoneNumber: "+91 9876543210",
+    products: [{ name: "SPN123A01B", quantity: 2 }],
+    status: "Completed"
+},
+{
+    orderId: "#1025",
+    date: "21/12/2024 - 5:30 PM",
+    firstName: "Priya",
+    lastName: "Kumar",
+    phoneNumber: "+91 8765432109",
+    products: [{ name: "SPN456C02D", quantity: 1 }],
+    status: "Completed"
+},
+{
+    orderId: "#1026",
+    date: "21/12/2024 - 6:45 PM",
+    firstName: "Rahul",
+    lastName: "Verma",
+    phoneNumber: "+91 7654321098",
+    products: [{ name: "SPN789E03F", quantity: 3 }],
+    status: "Completed"
+},
+{
+    orderId: "#1027",
+    date: "21/12/2024 - 7:00 PM",
+    firstName: "Sneha",
+    lastName: "Patel",
+    phoneNumber: "+91 6543210987",
+    products: [{ name: "SPN234G04H", quantity: 5 }],
+    status: "Completed"
+},
+{
+    orderId: "#1028",
+    date: "21/12/2024 - 7:30 PM",
+    firstName: "Vikram",
+    lastName: "Singh",
+    phoneNumber: "+91 5432109876",
+    products: [{ name: "SPN678I05J", quantity: 4 }],
+    status: "Completed"
+},
+{
+    orderId: "#1029",
+    date: "21/12/2024 - 8:00 PM",
+    firstName: "Anjali",
+    lastName: "Rao",
+    phoneNumber: "+91 4321098765",
+    products: [{ name: "SPN123K06L", quantity: 2 }],
+    status: "Completed"
+},
+{
+    orderId: "#1030",
+    date: "21/12/2024 - 8:30 PM",
+    firstName: "Rohan",
+    lastName: "Mehta",
+    phoneNumber: "+91 3210987654",
+    products: [{ name: "SPN567M07N", quantity: 1 }],
+    status: "Completed"
+},
+{
+    orderId: "#1031",
+    date: "21/12/2024 - 9:00 PM",
+    firstName: "Pooja",
+    lastName: "Desai",
+    phoneNumber: "+91 2109876543",
+    products: [{ name: "SPN901O08P", quantity: 6 }],
+    status: "Completed"
+},
+{
+    orderId: "#1032",
+    date: "21/12/2024 - 9:30 PM",
+    firstName: "Karan",
+    lastName: "Kapoor",
+    phoneNumber: "+91 1098765432",
+    products: [{ name: "SPN345Q09R", quantity: 3 }],
+    status: "Completed"
+},
+{
+    orderId: "#1033",
+    date: "21/12/2024 - 10:00 PM",
+    firstName: "Meera",
+    lastName: "Nair",
+    phoneNumber: "+91 0987654321",
+    products: [{ name: "SPN789S10T", quantity: 2 }],
+    status: "Completed"
+}
 ];
 
 const FullFillment = ({ setActivePage, setSelectedOrder }) => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 6; // Fixed at 7 objects per page
+  const itemsPerPage = 10; // Fixed at 6 objects per page
   const [selectAll, setSelectAll] = useState(false);
   const [selectedOrders, setSelectedOrders] = useState({});
 
@@ -126,6 +217,15 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
 
     fetchData();
   }, []);
+
+  // Debouncing search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300); // 300ms delay
+    
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleStatusUpdate = (orderId, newStatus) => {
     setItems((prevItems) =>
@@ -171,9 +271,10 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
   }
 
   const filteredOrders = items.filter((order) => {
-    const matchesSearch = `${order.firstName} ${order.lastName}`
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
+    const matchesSearch = (
+      `${order.firstName} ${order.lastName}`.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+      (order.phoneNumber && order.phoneNumber.toLowerCase().includes(debouncedSearchQuery.toLowerCase()))
+    );
 
     if (activeTab === "Recent") {
       // Filter for orders in the last 24 hours
@@ -207,11 +308,11 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg w-[75%] absolute top-20 -right-0 z-20 h-[calc(100vh-80px)] flex flex-col mr-4">
-      {/* Fixed Header Section */}
+    <div className="p-4 bg-white rounded-xl shadow-lg w-[75%] absolute top-20 -right-0 z-20 h-[calc(100vh-80px)] flex flex-col mr-4">
+      {/* Fixed Header Section - Reduced padding for low height screens */}
       <div className="flex-none">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
+        {/* Header - More compact */}
+        <div className="flex justify-between items-center mb-2">
           <h2 className="text-xl font-semibold text-[#2B2B2B]">Fulfillment</h2>
           <button
             className="bg-blue-500 text-white px-3 py-1.5 mr-4 text-sm"
@@ -222,12 +323,12 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
           </button>
         </div>
     
-        {/* Tabs */}
+        {/* Tabs - More compact */}
         <div className="flex space-x-6 border-b border-[#B2B2B2]">
           {["All", "Recent", "This Week"].map((tab) => (
             <button
               key={tab}
-              className={`pb-2 text-sm ${
+              className={`pb-1 text-sm ${
                 activeTab === tab
                   ? "border-b-2 border-[#1428A1] text-[#484848] font-semibold"
                   : "text-[#484848]"
@@ -241,11 +342,11 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
           ))}
         </div>
     
-        {/* Search */}
-        <div className="mt-4 flex justify-between items-center">
+        {/* Search - More compact */}
+        <div className="mt-2 flex justify-between items-center">
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search by name or phone number"
             className="border border-[#B2B2B2] p-2 rounded w-full text-sm"
             value={searchQuery}
             onChange={(e) => {
@@ -256,96 +357,96 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
         </div>
       </div>
   
-{/* Table Headers - Fixed */}
-<div className="mt-4 flex-none">
-  <table className="w-full text-[#484848] text-sm table-fixed">
-    <thead className="bg-gray-50">
-      <tr>
-        <th className="p-3 w-10 text-left">
-          <input 
-            type="checkbox" 
-            className="h-4 w-4" 
-            checked={selectAll}
-            onChange={handleSelectAll}
-          />
-        </th>
-        <th className="p-3 text-center font-medium w-[12%]">Order ID</th>
-        <th className="p-3 text-center font-medium w-[18%]">Date</th>
-        <th className="p-3 text-center font-medium w-[15%]">Customer</th>
-        <th className="p-3 text-center font-medium w-[15%]">Phone</th>
-        <th className="p-3 text-center font-medium w-[18%]">Product Name/Part No</th>
-        <th className="p-3 text-center font-medium w-[7%]">Quantity</th>
-        <th className="p-3 text-center font-medium w-[15%]">Status</th>
-      </tr>
-    </thead>
-  </table>
-</div>
+      {/* Table Headers - Fixed, more compact */}
+      <div className="mt-2 flex-none">
+        <table className="w-full text-[#484848] text-sm table-fixed">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="p-2 w-10 text-left">
+                <input 
+                  type="checkbox" 
+                  className="h-4 w-4" 
+                  checked={selectAll}
+                  onChange={handleSelectAll}
+                />
+              </th>
+              <th className="p-2 text-center font-medium w-[12%]">Order ID</th>
+              <th className="p-2 text-center font-medium w-[18%]">Date</th>
+              <th className="p-2 text-center font-medium w-[15%]">Customer</th>
+              <th className="p-2 text-center font-medium w-[15%]">Phone</th>
+              <th className="p-2 text-center font-medium w-[18%]">Product Name/Part No</th>
+              <th className="p-2 text-center font-medium w-[7%]">Quantity</th>
+              <th className="p-2 text-center font-medium w-[15%]">Status</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
 
-{/* Table Body - Scrollable */}
-<div className="flex-grow overflow-y-auto">
-  <table className="w-full border-b border-[#B2B2B2] text-[#484848] text-sm table-fixed">
-    <tbody>
-      {currentOrders.map((order) => (
-        <tr
-          key={order.orderId}
-          className="border-b border-gray-200 hover:bg-gray-50">
-          <td className="p-3 w-10">
-            <input 
-              type="checkbox" 
-              className="h-4 w-4" 
-              checked={selectedOrders[order.orderId] || false}
-              onChange={(e) => handleSelectOrder(order.orderId, e.target.checked)}
-            />
-          </td>
-          <td
-            className="p-3 text-center cursor-pointer hover:text-blue-600 w-[12%]"
-            onClick={() => {
-              setSelectedOrder && setSelectedOrder(order);
-              setActivePage && setActivePage("order-details");
-            }}>
-            {order.orderId}
-          </td>
-          <td className="p-3 text-center w-[18%]">{order.date}</td>
-          <td className="p-3 text-center w-[15%]">
-            {order.firstName} {order.lastName}
-          </td>
-          <td className="p-3 text-center w-[15%]">{order.phoneNumber}</td>
-          <td className="p-3 text-center w-[18%] truncate">
-            {order.products?.length > 0
-              ? order.products[0].name
-              : "N/A"}
-          </td>
-          <td className="p-3 text-center w-[7%]">
-            {order.products?.length > 0
-              ? order.products[0].quantity
-              : "N/A"}
-          </td>
-          <td className="p-3 w-[15%]">
-            <StatusDropDown
-              orderId={order.orderId}
-              initialStatus={order.status || "Pending"}
-              onStatusUpdate={handleStatusUpdate}
-              disableDropdown={true}
-            />
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
+      {/* Table Body - Scrollable, more compact */}
+      <div className="flex-grow overflow-y-auto">
+        <table className="w-full border-b border-[#B2B2B2] text-[#484848] text-sm table-fixed">
+          <tbody>
+            {currentOrders.map((order) => (
+              <tr
+                key={order.orderId}
+                className="border-b border-gray-200 hover:bg-gray-50">
+                <td className="p-2 w-10">
+                  <input 
+                    type="checkbox" 
+                    className="h-4 w-4" 
+                    checked={selectedOrders[order.orderId] || false}
+                    onChange={(e) => handleSelectOrder(order.orderId, e.target.checked)}
+                  />
+                </td>
+                <td
+                  className="p-2 text-center cursor-pointer hover:text-blue-600 w-[12%]"
+                  onClick={() => {
+                    setSelectedOrder && setSelectedOrder(order);
+                    setActivePage && setActivePage("order-details");
+                  }}>
+                  {order.orderId}
+                </td>
+                <td className="p-2 text-center w-[18%]">{order.date}</td>
+                <td className="p-2 text-center w-[15%]">
+                  {order.firstName} {order.lastName}
+                </td>
+                <td className="p-2 text-center w-[15%]">{order.phoneNumber}</td>
+                <td className="p-2 text-center w-[18%] truncate">
+                  {order.products?.length > 0
+                    ? order.products[0].name
+                    : "N/A"}
+                </td>
+                <td className="p-2 text-center w-[7%]">
+                  {order.products?.length > 0
+                    ? order.products[0].quantity
+                    : "N/A"}
+                </td>
+                <td className="p-2 w-[15%]">
+                  <StatusDropDown
+                    orderId={order.orderId}
+                    initialStatus={order.status || "Pending"}
+                    onStatusUpdate={handleStatusUpdate}
+                    disableDropdown={true}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     
-      {/* Pagination - Fixed at bottom */}
+      {/* Pagination - Fixed at bottom, more compact */}
       {filteredOrders.length > 0 && (
-        <div className="py-4 border-t border-gray-200 flex-none">
+        <div className="py-2 border-t border-gray-200 flex-none">
           <div className="flex justify-between items-center">
-            <div className="text-sm text-gray-500">
+            <div className="text-xs text-gray-500">
               Showing {Math.min(offset + 1, filteredOrders.length)} - {Math.min(offset + itemsPerPage, filteredOrders.length)} of {filteredOrders.length} orders
             </div>
             <div className="flex items-center space-x-1">
               <button
                 onClick={() => handlePageChange(Math.max(0, currentPage - 1))}
                 disabled={currentPage === 0}
-                className={`flex justify-center items-center w-8 h-8 border border-gray-300 rounded-md ${
+                className={`flex justify-center items-center w-7 h-7 border border-gray-300 rounded-md ${
                   currentPage === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-100"
                 }`}
               >
@@ -356,7 +457,7 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
                 <button
                   key={page}
                   onClick={() => handlePageChange(page)}
-                  className={`flex justify-center items-center w-8 h-8 border rounded-md ${
+                  className={`flex justify-center items-center w-7 h-7 border rounded-md ${
                     currentPage === page
                       ? "bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
                       : "border-gray-300 hover:bg-gray-100"
@@ -369,7 +470,7 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
               <button
                 onClick={() => handlePageChange(Math.min(pageCount - 1, currentPage + 1))}
                 disabled={currentPage === pageCount - 1}
-                className={`flex justify-center items-center w-8 h-8 border border-gray-300 rounded-md ${
+                className={`flex justify-center items-center w-7 h-7 border border-gray-300 rounded-md ${
                   currentPage === pageCount - 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-100"
                 }`}
               >
