@@ -12,7 +12,7 @@ const StatusDropDown = ({ orderId, initialStatus, onStatusUpdate, disableDropdow
     // Status options with their corresponding colors
     const statusOptions = [
         { value: "Pending", color: "#F5D876" }, // Yellow
-        { value: "Ready to Dispatch", color: "#F79A4B" }, // Orange
+        { value: "Ready to dispatch", color: "#F79A4B" }, // Orange
         { value: "Completed", color: "#63D384" }, // Green
         { value: "Cancelled", color: "#E24C4C" }, // Red
     ];
@@ -39,7 +39,9 @@ const StatusDropDown = ({ orderId, initialStatus, onStatusUpdate, disableDropdow
                 {
                     status: newStatus,
                 },
-                { headers: { "Content-Type": "application/json" } },
+                { 
+                    withCredentials: true,
+                },
             );
             toast.success(`Order ${orderId} status updated to "${newStatus}"`);
             onStatusUpdate(orderId, newStatus);

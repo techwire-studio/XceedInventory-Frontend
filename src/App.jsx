@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./pages/Dashboard";
 import { Toaster } from "react-hot-toast";
@@ -8,9 +8,14 @@ import { AuthProvider } from "./config/AuthContext";
 import ProtectedRoute from "./config/ProtectedRoute";
 
 function App() {
+    const location = useLocation();
+    const isLoginPage = location.pathname === "/login";
+
     return (
         <AuthProvider>
-            <Header />
+            {/* Only render Header if not on login page */}
+            {!isLoginPage && <Header />}
+            
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<ProtectedRoute component={Dashboard} />} />

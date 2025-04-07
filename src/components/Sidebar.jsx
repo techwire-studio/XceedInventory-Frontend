@@ -1,10 +1,12 @@
 import { RiArrowDownSLine, RiArrowRightSLine } from "@remixicon/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import AuthContext from "../config/AuthContext";
 
 const Sidebar = ({ setActivePage }) => {
     const [option, setOption] = useState("home");
     const [isSalesOpen, setIsSalesOpen] = useState(false);
     const [isInventoryOpen, setIsInventoryOpen] = useState(false);
+    const { user, role } = useContext(AuthContext);
 
     const handleOption = (page, parent = null) => {
         setOption(page);
@@ -23,8 +25,8 @@ const Sidebar = ({ setActivePage }) => {
                     className="w-16 h-16 rounded-full"
                 />
                 <div className="mt-1 text-center">
-                    <p className="text-sm font-semibold">Riya Sharma</p>
-                    <p className="text-xs text-gray-700">Project Manager</p>
+                    <p className="text-sm font-semibold">{user}</p>
+                    <p className="text-xs text-gray-700">{role}</p>
                 </div>
             </div>
 

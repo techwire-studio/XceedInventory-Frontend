@@ -41,6 +41,7 @@ const OrderDetails = ({ setActivePage, order }) => {
         setLoading(true);
 
         const updatedOrder = {
+            ...order,
             email: order.email || "admin@xceed.com",
             invoiceNumber: order.invoiceNumber || "9874155",
             message: "Confirmed order",
@@ -58,6 +59,7 @@ const OrderDetails = ({ setActivePage, order }) => {
                 JSON.stringify(updatedOrder),
                 {
                     headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
                 },
             );
 

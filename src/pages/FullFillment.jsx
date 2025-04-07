@@ -273,7 +273,8 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
   const filteredOrders = items.filter((order) => {
     const matchesSearch = (
       `${order.firstName} ${order.lastName}`.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
-      (order.phoneNumber && order.phoneNumber.toLowerCase().includes(debouncedSearchQuery.toLowerCase()))
+      (order.phoneNumber && order.phoneNumber.toLowerCase().includes(debouncedSearchQuery.toLowerCase())) ||
+      (order.orderId && order.orderId.toLowerCase().includes(debouncedSearchQuery.toLowerCase()))
     );
 
     if (activeTab === "Recent") {
@@ -346,7 +347,7 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
         <div className="mt-2 flex justify-between items-center">
           <input
             type="text"
-            placeholder="Search by name or phone number"
+            placeholder="Search by name, phone number or order ID"
             className="border border-[#B2B2B2] p-2 rounded w-full text-sm"
             value={searchQuery}
             onChange={(e) => {
@@ -370,13 +371,13 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
                   onChange={handleSelectAll}
                 />
               </th>
-              <th className="p-2 text-center font-medium w-[12%]">Order ID</th>
-              <th className="p-2 text-center font-medium w-[18%]">Date</th>
-              <th className="p-2 text-center font-medium w-[15%]">Customer</th>
-              <th className="p-2 text-center font-medium w-[15%]">Phone</th>
-              <th className="p-2 text-center font-medium w-[18%]">Product Name/Part No</th>
-              <th className="p-2 text-center font-medium w-[7%]">Quantity</th>
-              <th className="p-2 text-center font-medium w-[15%]">Status</th>
+              <th className="p-2 text-left font-medium w-[12%]">Order ID</th>
+              <th className="p-2 text-left font-medium w-[18%]">Date</th>
+              <th className="p-2 text-left font-medium w-[15%]">Customer</th>
+              <th className="p-2 text-left font-medium w-[13%]">Phone</th>
+              <th className="p-2 text-left font-medium w-[18%]">Product Name/Part No</th>
+              <th className="p-2 text-left font-medium w-[9%]">Quantity</th>
+              <th className="p-2 text-left font-medium w-[15%]">Status</th>
             </tr>
           </thead>
         </table>
@@ -399,24 +400,24 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
                   />
                 </td>
                 <td
-                  className="p-2 text-center cursor-pointer hover:text-blue-600 w-[12%]"
+                  className="p-2 text-left cursor-pointer hover:text-blue-600 w-[12%]"
                   onClick={() => {
                     setSelectedOrder && setSelectedOrder(order);
                     setActivePage && setActivePage("order-details");
                   }}>
                   {order.orderId}
                 </td>
-                <td className="p-2 text-center w-[18%]">{order.date}</td>
-                <td className="p-2 text-center w-[15%]">
+                <td className="p-2 text-left w-[18%]">{order.date}</td>
+                <td className="p-2 text-left w-[15%]">
                   {order.firstName} {order.lastName}
                 </td>
-                <td className="p-2 text-center w-[15%]">{order.phoneNumber}</td>
-                <td className="p-2 text-center w-[18%] truncate">
+                <td className="p-2 text-left w-[15%]">{order.phoneNumber}</td>
+                <td className="p-2 text-left w-[18%] truncate">
                   {order.products?.length > 0
                     ? order.products[0].name
                     : "N/A"}
                 </td>
-                <td className="p-2 text-center w-[7%]">
+                <td className="p-2 text-left w-[7%]">
                   {order.products?.length > 0
                     ? order.products[0].quantity
                     : "N/A"}

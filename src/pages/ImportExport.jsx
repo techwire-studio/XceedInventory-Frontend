@@ -30,7 +30,8 @@ const ImportExport = () => {
 			const response = await axios.post(
 				"http://localhost:5000/api/products/upload",
 				formData,
-				{ headers: { "Content-Type": "multipart/form-data" } },
+				{ headers: { "Content-Type": "multipart/form-data" },
+					withCredentials: true }	,
 			);
 
 			toast.success(response.data.message || "File uploaded successfully!");

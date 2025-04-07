@@ -9,6 +9,7 @@ export const apiCall = async (module: string, data = {}) => {
 	try {
 		const url = AppConfig.API_URL + module;
 		const result = await axios.post(url, data, {
+			withCredentials: true,
 			headers: { "Content-Type": "application/json" },
 		});
 		const resp: Restapi = await result.data;

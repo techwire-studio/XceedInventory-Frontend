@@ -8,6 +8,7 @@ import ImportExport from "./ImportExport";
 import Analytics from "./Analytics";
 import AddProducts from "./AddProducts";
 import OrderDetails from "./OrderDetails";
+import CreateOrder from "./CreateOrder";
 
 export default function Dashboard() {
 	const [activePage, setActivePage] = useState("analytics");
@@ -39,6 +40,8 @@ export default function Dashboard() {
 						order={selectedOrder}
 					/>
 				);
+			case "create-order":
+				return <CreateOrder setActivePage={setActivePage} />;
 			default:
 				return <Analytics setActivePage={setActivePage} />;
 		}
