@@ -18,7 +18,9 @@ const Sidebar = ({ setActivePage }) => {
 
     return (
         <aside className="bg-white text-[#2B2B2B] font-medium p-6 flex flex-col rounded-xl absolute w-[22%] top-20 left-0 z-20 bottom-4 shadow-lg overflow-y-auto">
-            <div className="flex flex-col items-center mb-4">
+            <div className="flex flex-col items-center mb-4 cursor-pointer"
+                 onClick={() => setActivePage("profile")}
+                >
                 <img
                     src="/avatar.png"
                     alt="Profile"

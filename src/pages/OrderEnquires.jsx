@@ -311,15 +311,36 @@ const OrderEnquires = ({ setActivePage, setSelectedOrder }) => {
                 {order.firstName} {order.lastName}
               </td>
               <td className="p-2 text-left w-[15%]">{order.phoneNumber}</td>
-              <td className="p-2 text-left w-[25%] truncate">
-                {order.products?.length > 0
-                  ? order.products[0].productName || order.products[0].name
-                  : "N/A"}
+              <td className="p-2 text-left w-[25%]">
+                <div className="max-h-16 overflow-y-auto">
+                  {order.products?.length > 0 ? (
+                    order.products.map((product, idx) => (
+                      <div key={idx} className="truncate text-xs mb-1">
+                        <span className="font-medium">
+                          {product.productName || product.name}
+                        </span>
+                        <span className="text-gray-500 ml-1">
+                          ({product.productId})
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <span className="text-gray-400">N/A</span>
+                  )}
+                </div>
               </td>
               <td className="p-2 text-left w-[10%]">
-                {order.products?.length > 0
-                  ? order.products[0].quantity
-                  : "N/A"}
+                {order.products?.length > 0 ? (
+                  <div className="max-h-16 overflow-y-auto">
+                    {order.products.map((product, idx) => (
+                      <div key={idx} className="text-xs mb-1">
+                        {product.quantity}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-gray-400">N/A</span>
+                )}
               </td>
               <td className="p-2 w-[20%]">
                 <StatusDropDown

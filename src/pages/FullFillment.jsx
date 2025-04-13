@@ -5,188 +5,188 @@ import Loader from "../components/Loader";
 import StatusDropDown from "../components/StatusDropDown";
 
 // Sample fulfillment data
-const sampleOrders = [
-  {
-    orderId: "#9348",
-    date: "18/12/2024 - 1:45 PM",
-    firstName: "Ritesh",
-    lastName: "Yadav",
-    phoneNumber: "+91 9874563210",
-    products: [{ name: "SPN3094", quantity: 2 }],
-    status: "Completed"
-  },
-  {
-    orderId: "#8745",
-    date: "18/12/2024 - 5:45 PM",
-    firstName: "John",
-    lastName: "Smith",
-    phoneNumber: "+91 8523697410",
-    products: [{ name: "SPN8838", quantity: 1 }],
-    status: "Completed"
-  },
-  {
-    orderId: "#8957",
-    date: "18/12/2024 - 9:58 PM",
-    firstName: "David",
-    lastName: "Williams",
-    phoneNumber: "+91 7412589630",
-    products: [{ name: "SPN125N04A", quantity: 3 }],
-    status: "Completed"
-  },
-  {
-    orderId: "#4238",
-    date: "18/12/2024 - 2:38 AM",
-    firstName: "Sarah",
-    lastName: "Mitchel",
-    phoneNumber: "+91 8523697410",
-    products: [{ name: "SPN166T04A", quantity: 4 }],
-    status: "Completed"
-  },
-  {
-    orderId: "#5789",
-    date: "19/12/2024 - 10:15 AM",
-    firstName: "Michael",
-    lastName: "Johnson",
-    phoneNumber: "+91 9632587410",
-    products: [{ name: "SPN445T07B", quantity: 1 }],
-    status: "Completed"
-  },
-  {
-    orderId: "#6234",
-    date: "19/12/2024 - 2:30 PM",
-    firstName: "Emily",
-    lastName: "Brown",
-    phoneNumber: "+91 7896541230",
-    products: [{ name: "SPN789P04C", quantity: 2 }],
-    status: "Completed"
-  },
-  {
-    orderId: "#7812",
-    date: "20/12/2024 - 9:45 AM",
-    firstName: "Robert",
-    lastName: "Davis",
-    phoneNumber: "+91 8745962130",
-    products: [{ name: "SPN321Q08R", quantity: 5 }],
-    status: "Completed"
-  },
-  {
-    orderId: "#8367",
-    date: "20/12/2024 - 4:20 PM",
-    firstName: "Jennifer",
-    lastName: "Wilson",
-    phoneNumber: "+91 9513578520",
-    products: [{ name: "SPN654S02T", quantity: 3 }],
-    status: "Completed"
-  },
-  {
-    orderId: "#9145",
-    date: "21/12/2024 - 11:05 AM",
-    firstName: "Thomas",
-    lastName: "Anderson",
-    phoneNumber: "+91 8529637410",
-    products: [{ name: "SPN987U05V", quantity: 2 }],
-    status: "Completed"
-  },
-  {
-    orderId: "#1023",
-    date: "21/12/2024 - 3:50 PM",
-    firstName: "Jessica",
-    lastName: "Taylor",
-    phoneNumber: "+91 7539518520",
-    products: [{ name: "SPN456W01X", quantity: 1 }],
-    status: "Completed"
-  },
-  {
-    orderId: "#1024",
-    date: "21/12/2024 - 4:15 PM",
-    firstName: "Amit",
-    lastName: "Sharma",
-    phoneNumber: "+91 9876543210",
-    products: [{ name: "SPN123A01B", quantity: 2 }],
-    status: "Completed"
-},
-{
-    orderId: "#1025",
-    date: "21/12/2024 - 5:30 PM",
-    firstName: "Priya",
-    lastName: "Kumar",
-    phoneNumber: "+91 8765432109",
-    products: [{ name: "SPN456C02D", quantity: 1 }],
-    status: "Completed"
-},
-{
-    orderId: "#1026",
-    date: "21/12/2024 - 6:45 PM",
-    firstName: "Rahul",
-    lastName: "Verma",
-    phoneNumber: "+91 7654321098",
-    products: [{ name: "SPN789E03F", quantity: 3 }],
-    status: "Completed"
-},
-{
-    orderId: "#1027",
-    date: "21/12/2024 - 7:00 PM",
-    firstName: "Sneha",
-    lastName: "Patel",
-    phoneNumber: "+91 6543210987",
-    products: [{ name: "SPN234G04H", quantity: 5 }],
-    status: "Completed"
-},
-{
-    orderId: "#1028",
-    date: "21/12/2024 - 7:30 PM",
-    firstName: "Vikram",
-    lastName: "Singh",
-    phoneNumber: "+91 5432109876",
-    products: [{ name: "SPN678I05J", quantity: 4 }],
-    status: "Completed"
-},
-{
-    orderId: "#1029",
-    date: "21/12/2024 - 8:00 PM",
-    firstName: "Anjali",
-    lastName: "Rao",
-    phoneNumber: "+91 4321098765",
-    products: [{ name: "SPN123K06L", quantity: 2 }],
-    status: "Completed"
-},
-{
-    orderId: "#1030",
-    date: "21/12/2024 - 8:30 PM",
-    firstName: "Rohan",
-    lastName: "Mehta",
-    phoneNumber: "+91 3210987654",
-    products: [{ name: "SPN567M07N", quantity: 1 }],
-    status: "Completed"
-},
-{
-    orderId: "#1031",
-    date: "21/12/2024 - 9:00 PM",
-    firstName: "Pooja",
-    lastName: "Desai",
-    phoneNumber: "+91 2109876543",
-    products: [{ name: "SPN901O08P", quantity: 6 }],
-    status: "Completed"
-},
-{
-    orderId: "#1032",
-    date: "21/12/2024 - 9:30 PM",
-    firstName: "Karan",
-    lastName: "Kapoor",
-    phoneNumber: "+91 1098765432",
-    products: [{ name: "SPN345Q09R", quantity: 3 }],
-    status: "Completed"
-},
-{
-    orderId: "#1033",
-    date: "21/12/2024 - 10:00 PM",
-    firstName: "Meera",
-    lastName: "Nair",
-    phoneNumber: "+91 0987654321",
-    products: [{ name: "SPN789S10T", quantity: 2 }],
-    status: "Completed"
-}
-];
+// const sampleOrders = [
+//   {
+//     orderId: "#9348",
+//     date: "18/12/2024 - 1:45 PM",
+//     firstName: "Ritesh",
+//     lastName: "Yadav",
+//     phoneNumber: "+91 9874563210",
+//     products: [{ name: "SPN3094", quantity: 2 }],
+//     status: "Completed"
+//   },
+//   {
+//     orderId: "#8745",
+//     date: "18/12/2024 - 5:45 PM",
+//     firstName: "John",
+//     lastName: "Smith",
+//     phoneNumber: "+91 8523697410",
+//     products: [{ name: "SPN8838", quantity: 1 }],
+//     status: "Completed"
+//   },
+//   {
+//     orderId: "#8957",
+//     date: "18/12/2024 - 9:58 PM",
+//     firstName: "David",
+//     lastName: "Williams",
+//     phoneNumber: "+91 7412589630",
+//     products: [{ name: "SPN125N04A", quantity: 3 }],
+//     status: "Completed"
+//   },
+//   {
+//     orderId: "#4238",
+//     date: "18/12/2024 - 2:38 AM",
+//     firstName: "Sarah",
+//     lastName: "Mitchel",
+//     phoneNumber: "+91 8523697410",
+//     products: [{ name: "SPN166T04A", quantity: 4 }],
+//     status: "Completed"
+//   },
+//   {
+//     orderId: "#5789",
+//     date: "19/12/2024 - 10:15 AM",
+//     firstName: "Michael",
+//     lastName: "Johnson",
+//     phoneNumber: "+91 9632587410",
+//     products: [{ name: "SPN445T07B", quantity: 1 }],
+//     status: "Completed"
+//   },
+//   {
+//     orderId: "#6234",
+//     date: "19/12/2024 - 2:30 PM",
+//     firstName: "Emily",
+//     lastName: "Brown",
+//     phoneNumber: "+91 7896541230",
+//     products: [{ name: "SPN789P04C", quantity: 2 }],
+//     status: "Completed"
+//   },
+//   {
+//     orderId: "#7812",
+//     date: "20/12/2024 - 9:45 AM",
+//     firstName: "Robert",
+//     lastName: "Davis",
+//     phoneNumber: "+91 8745962130",
+//     products: [{ name: "SPN321Q08R", quantity: 5 }],
+//     status: "Completed"
+//   },
+//   {
+//     orderId: "#8367",
+//     date: "20/12/2024 - 4:20 PM",
+//     firstName: "Jennifer",
+//     lastName: "Wilson",
+//     phoneNumber: "+91 9513578520",
+//     products: [{ name: "SPN654S02T", quantity: 3 }],
+//     status: "Completed"
+//   },
+//   {
+//     orderId: "#9145",
+//     date: "21/12/2024 - 11:05 AM",
+//     firstName: "Thomas",
+//     lastName: "Anderson",
+//     phoneNumber: "+91 8529637410",
+//     products: [{ name: "SPN987U05V", quantity: 2 }],
+//     status: "Completed"
+//   },
+//   {
+//     orderId: "#1023",
+//     date: "21/12/2024 - 3:50 PM",
+//     firstName: "Jessica",
+//     lastName: "Taylor",
+//     phoneNumber: "+91 7539518520",
+//     products: [{ name: "SPN456W01X", quantity: 1 }],
+//     status: "Completed"
+//   },
+//   {
+//     orderId: "#1024",
+//     date: "21/12/2024 - 4:15 PM",
+//     firstName: "Amit",
+//     lastName: "Sharma",
+//     phoneNumber: "+91 9876543210",
+//     products: [{ name: "SPN123A01B", quantity: 2 }],
+//     status: "Completed"
+// },
+// {
+//     orderId: "#1025",
+//     date: "21/12/2024 - 5:30 PM",
+//     firstName: "Priya",
+//     lastName: "Kumar",
+//     phoneNumber: "+91 8765432109",
+//     products: [{ name: "SPN456C02D", quantity: 1 }],
+//     status: "Completed"
+// },
+// {
+//     orderId: "#1026",
+//     date: "21/12/2024 - 6:45 PM",
+//     firstName: "Rahul",
+//     lastName: "Verma",
+//     phoneNumber: "+91 7654321098",
+//     products: [{ name: "SPN789E03F", quantity: 3 }],
+//     status: "Completed"
+// },
+// {
+//     orderId: "#1027",
+//     date: "21/12/2024 - 7:00 PM",
+//     firstName: "Sneha",
+//     lastName: "Patel",
+//     phoneNumber: "+91 6543210987",
+//     products: [{ name: "SPN234G04H", quantity: 5 }],
+//     status: "Completed"
+// },
+// {
+//     orderId: "#1028",
+//     date: "21/12/2024 - 7:30 PM",
+//     firstName: "Vikram",
+//     lastName: "Singh",
+//     phoneNumber: "+91 5432109876",
+//     products: [{ name: "SPN678I05J", quantity: 4 }],
+//     status: "Completed"
+// },
+// {
+//     orderId: "#1029",
+//     date: "21/12/2024 - 8:00 PM",
+//     firstName: "Anjali",
+//     lastName: "Rao",
+//     phoneNumber: "+91 4321098765",
+//     products: [{ name: "SPN123K06L", quantity: 2 }],
+//     status: "Completed"
+// },
+// {
+//     orderId: "#1030",
+//     date: "21/12/2024 - 8:30 PM",
+//     firstName: "Rohan",
+//     lastName: "Mehta",
+//     phoneNumber: "+91 3210987654",
+//     products: [{ name: "SPN567M07N", quantity: 1 }],
+//     status: "Completed"
+// },
+// {
+//     orderId: "#1031",
+//     date: "21/12/2024 - 9:00 PM",
+//     firstName: "Pooja",
+//     lastName: "Desai",
+//     phoneNumber: "+91 2109876543",
+//     products: [{ name: "SPN901O08P", quantity: 6 }],
+//     status: "Completed"
+// },
+// {
+//     orderId: "#1032",
+//     date: "21/12/2024 - 9:30 PM",
+//     firstName: "Karan",
+//     lastName: "Kapoor",
+//     phoneNumber: "+91 1098765432",
+//     products: [{ name: "SPN345Q09R", quantity: 3 }],
+//     status: "Completed"
+// },
+// {
+//     orderId: "#1033",
+//     date: "21/12/2024 - 10:00 PM",
+//     firstName: "Meera",
+//     lastName: "Nair",
+//     phoneNumber: "+91 0987654321",
+//     products: [{ name: "SPN789S10T", quantity: 2 }],
+//     status: "Completed"
+// }
+// ];
 
 const FullFillment = ({ setActivePage, setSelectedOrder }) => {
   const [loading, setLoading] = useState(true);
@@ -205,8 +205,10 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
       setLoading(true);
       try {
         // Simulating API delay
-        await new Promise(resolve => setTimeout(resolve, 800));
-        setItems(sampleOrders);
+        const response = await axios.get("http://localhost:5000/api/orders/completed", {
+          withCredentials: true,
+        })
+        setItems(response.data || []);
       } catch (error) {
         console.error("Error fetching data:", error);
         toast.error("Failed to load data");
@@ -407,19 +409,27 @@ const FullFillment = ({ setActivePage, setSelectedOrder }) => {
                   }}>
                   {order.orderId}
                 </td>
-                <td className="p-2 text-left w-[18%]">{order.date}</td>
+                <td className="p-2 text-left w-[18%]">
+                {new Date(order.updatedAt).toLocaleDateString('en-GB', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric'
+                })} 
+                </td>
                 <td className="p-2 text-left w-[15%]">
                   {order.firstName} {order.lastName}
                 </td>
                 <td className="p-2 text-left w-[15%]">{order.phoneNumber}</td>
                 <td className="p-2 text-left w-[18%] truncate">
                   {order.products?.length > 0
-                    ? order.products[0].name
+                    ? order.products.map(product => 
+                        `${product.productName || product.name} (${product.productId})`
+                      ).join(', ')
                     : "N/A"}
                 </td>
                 <td className="p-2 text-left w-[7%]">
                   {order.products?.length > 0
-                    ? order.products[0].quantity
+                    ? order.products.reduce((sum, product) => sum + (product.quantity || 0), 0)
                     : "N/A"}
                 </td>
                 <td className="p-2 w-[15%]">

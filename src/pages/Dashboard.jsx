@@ -9,6 +9,7 @@ import Analytics from "./Analytics";
 import AddProducts from "./AddProducts";
 import OrderDetails from "./OrderDetails";
 import CreateOrder from "./CreateOrder";
+import Profile from "./Profile";
 
 export default function Dashboard() {
 	const [activePage, setActivePage] = useState("analytics");
@@ -42,6 +43,8 @@ export default function Dashboard() {
 				);
 			case "create-order":
 				return <CreateOrder setActivePage={setActivePage} />;
+			case "profile":
+				return <Profile setActivePage={setActivePage} />;
 			default:
 				return <Analytics setActivePage={setActivePage} />;
 		}

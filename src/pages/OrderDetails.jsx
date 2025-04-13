@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { RiCloseLine } from "react-icons/ri";
+import { RiCloseLine, RiAddLine, RiDeleteBin6Line } from "react-icons/ri";
 
 const OrderDetails = ({ setActivePage, order }) => {
     if (!order) {
@@ -17,6 +17,7 @@ const OrderDetails = ({ setActivePage, order }) => {
     );
     const [products, setProducts] = useState(order.products || []);
     const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({});
 
     const handleClose = () => {
         setActivePage("orders");
@@ -35,9 +36,78 @@ const OrderDetails = ({ setActivePage, order }) => {
         const updatedProducts = [...products];
         updatedProducts[index][field] = value;
         setProducts(updatedProducts);
+        
+        // Clear error for this field if it exists
+        if (errors[`products[${index}].${field}`]) {
+            const newErrors = {...errors};
+            delete newErrors[`products[${index}].${field}`];
+            setErrors(newErrors);
+        }
+    };
+
+    const addNewProduct = () => {
+        setProducts([...products, { productId: "", productName: "", quantity: 1, amount: "" }]);
+    };
+
+    const removeProduct = (index) => {
+        if (products.length > 1) {
+            const updatedProducts = products.filter((_, i) => i !== index);
+            setProducts(updatedProducts);
+        } else {
+            toast.error("Order must have at least one product");
+        }
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        
+        // Customer validations
+        if (order.firstName && !/^[A-Za-z]+$/.test(order.firstName.trim())) {
+            newErrors.firstName = "First name must contain only alphabets";
+        }
+        
+        if (order.lastName && !/^[A-Za-z]+$/.test(order.lastName.trim())) {
+            newErrors.lastName = "Last name must contain only alphabets";
+        }
+        
+        if (order.phoneNumber && !/^(\+\d+ )?\d{10}$/.test(order.phoneNumber)) {
+            newErrors.phoneNumber = "Phone number must be 10 digits, optionally with country code";
+        }
+        
+        if (order.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(order.email)) {
+            newErrors.email = "Email must be in a valid format";
+        }
+        
+        // Product validations
+        products.forEach((product, index) => {
+            if (!product.productId || product.productId.trim() === '') {
+                newErrors[`products[${index}].productId`] = "Product ID is required";
+            }
+            
+            if (product.quantity && (isNaN(Number(product.quantity)) || Number(product.quantity) <= 0)) {
+                newErrors[`products[${index}].quantity`] = "Quantity must be a positive number";
+            }
+            
+            if (product.amount && (isNaN(Number(product.amount)) || Number(product.amount) < 0)) {
+                newErrors[`products[${index}].amount`] = "Amount must be a non-negative number";
+            }
+        });
+        
+        // Check for total amount
+        if (order.totalAmount && (isNaN(Number(order.totalAmount)) || Number(order.totalAmount) < 0)) {
+            newErrors.totalAmount = "Total amount must be a non-negative number";
+        }
+        
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleConfirm = async () => {
+        if (!validateForm()) {
+            toast.error("Please correct the errors before submitting");
+            return;
+        }
+        
         setLoading(true);
 
         const updatedOrder = {
@@ -50,9 +120,7 @@ const OrderDetails = ({ setActivePage, order }) => {
             billingAddress: sameAsShipping ? shippingAddress : billingAddress,
             products,
         };
-
-        console.log("Updating Order Data:", updatedOrder);
-
+        console.log("Updated Order:", updatedOrder);
         try {
             const response = await axios.patch(
                 `http://localhost:5000/api/orders/${order.orderId}/details`,
@@ -71,7 +139,18 @@ const OrderDetails = ({ setActivePage, order }) => {
             }
         } catch (error) {
             console.error("Error updating order:", error.response?.data || error);
-            toast.error("Failed to update order details.");
+            
+            // Handle validation errors from the backend
+            if (error.response?.data?.error) {
+                toast.error(error.response.data.error);
+                
+                // If backend returns missing products, show a more specific error
+                if (error.response.data.missingProducts) {
+                    toast.error(`Missing product IDs: ${error.response.data.missingProducts.join(', ')}`);
+                }
+            } else {
+                toast.error("Failed to update order details.");
+            }
         } finally {
             setLoading(false);
         }
@@ -80,7 +159,11 @@ const OrderDetails = ({ setActivePage, order }) => {
     // Format date for better display
     const formatDate = (dateString) => {
         if (!dateString) return "N/A";
-        return new Date(dateString).toLocaleDateString();
+        return new Date(dateString).toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
     };
 
     return (
@@ -98,22 +181,31 @@ const OrderDetails = ({ setActivePage, order }) => {
                 <div className="flex justify-between gap-4 mb-8 text-gray-700">
                     <div className="grid grid-cols-2 gap-x-8 gap-y-4 w-full">
                         <p className="font-medium">First Name:</p>
-                        <p>{order.firstName || "N/A"}</p>
+                        <div>
+                            <p>{order.firstName || "N/A"}</p>
+                            {errors.firstName && <p className="text-red-500 text-xs">{errors.firstName}</p>}
+                        </div>
                         
                         <p className="font-medium">Last Name:</p>
-                        <p>{order.lastName || "N/A"}</p>
+                        <div>
+                            <p>{order.lastName || "N/A"}</p>
+                            {errors.lastName && <p className="text-red-500 text-xs">{errors.lastName}</p>}
+                        </div>
                         
                         <p className="font-medium">Email Id:</p>
-                        <p>{order.email || "N/A"}</p>
+                        <div>
+                            <p>{order.email || "N/A"}</p>
+                            {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
+                        </div>
                         
                         <p className="font-medium">Phone Number:</p>
-                        <p>{order.phoneNumber || "N/A"}</p>
+                        <div>
+                            <p>{order.phoneNumber || "N/A"}</p>
+                            {errors.phoneNumber && <p className="text-red-500 text-xs">{errors.phoneNumber}</p>}
+                        </div>
                         
                         <p className="font-medium">Message:</p>
                         <p>{order.message || "N/A"}</p>
-                        
-                        <p className="font-medium">Product Enquired:</p>
-                        <p>{products.length > 0 ? products[0].name : "N/A"}</p>
                         
                         <p className="font-medium">Enquiry Date:</p>
                         <p>{formatDate(order.createdAt)}</p>
@@ -125,7 +217,10 @@ const OrderDetails = ({ setActivePage, order }) => {
                         <p>{order.invoiceNumber || "Not generated yet"}</p>
                         
                         <p className="font-medium">Total Amount:</p>
-                        <p>${order.totalAmount || "0.00"}</p>
+                        <div>
+                            <p>${order.totalAmount || "0.00"}</p>
+                            {errors.totalAmount && <p className="text-red-500 text-xs">{errors.totalAmount}</p>}
+                        </div>
                     </div>
                     <div className="mb-4">
                         <div className="flex items-center px-10 py-3" 
@@ -143,15 +238,25 @@ const OrderDetails = ({ setActivePage, order }) => {
                 </div>
 
                 {/* Header section with product info */}
-                <h3 className="text-lg font-semibold mb-4">Product Details</h3>
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-lg font-semibold">Product Details</h3>
+                    <button
+                        onClick={addNewProduct}
+                        className="flex items-center text-blue-600 hover:text-blue-800"
+                    >
+                        <RiAddLine className="mr-1" /> Add Product
+                    </button>
+                </div>
+                
                 <div className="border border-gray-300 rounded-lg p-4 mb-8">
                     <table className="w-full text-sm text-left">
                         <thead>
                             <tr className="bg-gray-100">
                                 <th className="p-3">Product Name/Part No</th>
-                                <th className="p-3">Product ID</th>
-                                <th className="p-3">Quantity</th>
+                                <th className="p-3">Product ID*</th>
+                                <th className="p-3">Quantity*</th>
                                 <th className="p-3">Amount (optional)</th>
+                                <th className="p-3 w-16">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -159,27 +264,75 @@ const OrderDetails = ({ setActivePage, order }) => {
                                 <tr
                                     key={index}
                                     className="border-b font-light">
-                                    <td className="p-3">{item.name}</td>
-                                    <td className="p-3">{item.productId}</td>
                                     <td className="p-3">
                                         <input
-                                            type="number"
+                                            type="text"
                                             className="w-full border border-gray-300 rounded p-2"
-                                            value={item.quantity}
+                                            value={item.productName || ""}
                                             onChange={(e) =>
-                                                handleProductChange(index, "quantity", e.target.value)
+                                                handleProductChange(index, "productName", e.target.value)
                                             }
+                                            placeholder="Product Name"
                                         />
                                     </td>
                                     <td className="p-3">
-                                        <input
-                                            type="number"
-                                            className="w-full border border-gray-300 rounded p-2"
-                                            value={item.amount}
-                                            onChange={(e) =>
-                                                handleProductChange(index, "amount", e.target.value)
-                                            }
-                                        />
+                                        <div>
+                                            <input
+                                                type="text"
+                                                className={`w-full border ${errors[`products[${index}].productId`] ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
+                                                value={item.productId || ""}
+                                                onChange={(e) =>
+                                                    handleProductChange(index, "productId", e.target.value)
+                                                }
+                                                placeholder="Required"
+                                            />
+                                            {errors[`products[${index}].productId`] && (
+                                                <p className="text-red-500 text-xs mt-1">{errors[`products[${index}].productId`]}</p>
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td className="p-3">
+                                        <div>
+                                            <input
+                                                type="number"
+                                                className={`w-full border ${errors[`products[${index}].quantity`] ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
+                                                value={item.quantity || ""}
+                                                onChange={(e) =>
+                                                    handleProductChange(index, "quantity", e.target.value)
+                                                }
+                                                min="1"
+                                            />
+                                            {errors[`products[${index}].quantity`] && (
+                                                <p className="text-red-500 text-xs mt-1">{errors[`products[${index}].quantity`]}</p>
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td className="p-3">
+                                        <div>
+                                            <input
+                                                type="number"
+                                                className={`w-full border ${errors[`products[${index}].amount`] ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
+                                                value={item.amount || ""}
+                                                onChange={(e) =>
+                                                    handleProductChange(index, "amount", e.target.value)
+                                                }
+                                                min="0"
+                                                step="0.01"
+                                            />
+                                            {errors[`products[${index}].amount`] && (
+                                                <p className="text-red-500 text-xs mt-1">{errors[`products[${index}].amount`]}</p>
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td className="p-3 text-center">
+                                        {products.length > 1 && (
+                                            <button
+                                                onClick={() => removeProduct(index)}
+                                                className="text-red-500 hover:text-red-700"
+                                            >
+                                                <RiDeleteBin6Line size={18} />
+                                            </button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
